@@ -89,6 +89,8 @@ Azure Logic Apps, Key Vault, and Azure Monitor are configured and active in our 
 
 Deployed on Azure App Service: https://memory-bridge-api-eygdfsbegcbwfdd7.canadacentral-01.azurewebsites.net
 
+Note: The live deployment currently renders the chat interface. For the full multi-screen experience including onboarding, dashboard, and settings, run locally using the instructions below. All Azure services (Cosmos DB, Key Vault, Monitor, Logic Apps, Content Safety, Translator) are fully active in the production environment.
+
 | Screen | URL |
 |---|---|
 | Memory Harvesting Interview | /onboarding |
