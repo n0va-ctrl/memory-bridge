@@ -166,3 +166,5 @@ As we scale into a full production system, we would extend the architecture with
 ## The Bottom Line
 
 We are not solving memory loss. We are preserving connection.
+
+https://docs.google.com/presentation/d/1kSefWou6jM0UDwYA5jNJveD_svu8t50CFrrc6Js9dYo/edit?slide=id.p#slide=id.p
