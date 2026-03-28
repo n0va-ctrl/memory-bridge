@@ -6,6 +6,9 @@ We didn't build for the average case. We built for the hardest one. Because if y
 
 ---
 
+Full Demo & Presentation Here -> https://youtu.be/rNboSf6h6ZA
+
+
 ## The Problem
 
 Over 55 million people worldwide live with dementia. The tools that exist treat it as a medical and logistics problem — medication reminders, GPS trackers, appointment schedulers. But nobody is solving the human problem.
@@ -171,4 +174,4 @@ We are not solving memory loss. We are preserving connection.
 
 https://onedrive.live.com/:p:/g/personal/0DF5D843164D6056/IQAs87IJgvcnRKtvrZ4zN-51ARHwGCzUdEKeD2wjhku3a0I?resid=0DF5D843164D6056!s09b2f32cf7824427ab6fad9e3337ee75&ithint=file%2Cpptx&e=HidXdD&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3AvYy8wREY1RDg0MzE2NEQ2MDU2L0lRQXM4N0lKZ3ZjblJLdHZyWjR6Ti01MUFSSHdHQ3pVZEVLZUQyd2poa3UzYTBJP2U9SGlkWGRE 
 
-https://docs.google.com/presentation/d/1kSefWou6jM0UDwYA5jNJveD_svu8t50CFrrc6Js9dYo/edit?slide=id.p#slide=id.p 
+
