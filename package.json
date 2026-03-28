@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.9.2",
+    "@azure/identity": "^4.13.1",
+    "@azure/keyvault-secrets": "^4.10.0",
+    "@azure/monitor-opentelemetry": "^1.16.0",
+    "@radix-ui/react-switch": "^1.2.6",
     "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

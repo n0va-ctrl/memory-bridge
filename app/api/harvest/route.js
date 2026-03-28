@@ -8,45 +8,62 @@ export async function POST(req) {
     const userMessage = body.message;
     const history = body.history || [];
 
-    const systemPrompt = `
-You are conducting a warm, gentle memory interview with someone. You are talking directly TO this person.
+    console.log("=== HARVEST START ===");
+    console.log("userMessage:", userMessage);
 
-Your goal is to learn about them naturally through conversation. Do NOT follow a script or ask the same questions every time.
-
-Guide the conversation organically through these themes — but only ONE at a time, and only when it feels natural:
-- Their name and what they like to be called
-- Their favorite music, songs, or artists
-- A happy memory from their past
-- People they love — family or friends
-- A place that feels like home
-- Something they are proud of
-- A hobby or activity they enjoy
-- Something that always makes them smile
-- Their favorite food or meal
-- A pet they have or have had
-
-Rules:
-- NEVER ask the same question twice
-- Read the conversation history carefully and build on what they have already shared
-- Ask follow-up questions based on their actual answers
-- If they mention a person, ask more about that person
-- If they mention a place, ask what they love about it
-- Keep responses warm, short, and conversational
-- Acknowledge what they share before asking the next question
-
-After your conversational response, on a new line extract a memory like this:
-[MEMORY: their name is X] or [MEMORY: they love X] or [MEMORY: they feel proud of X]
-
-Always extract something meaningful from every response.
-`;
+    const systemPrompt = "You are conducting a warm, gentle memory interview with someone. You are talking directly TO this person.\n" +
+      "Your goal is to learn about them naturally through conversation. Do NOT follow a script or ask the same questions every time.\n\n" +
+      "Guide the conversation organically through these themes — but only ONE at a time, rotate randomly, and NEVER start with music:\n" +
+      "- A happy memory from their childhood\n" +
+      "- People they love — family or friends\n" +
+      "- A place that feels like home\n" +
+      "- Something they are proud of\n" +
+      "- A hobby or activity they enjoy\n" +
+      "- Something that always makes them smile\n" +
+      "- Their favorite food or meal\n" +
+      "- A pet they have or have had\n" +
+      "- Their favorite music, songs, or artists\n" +
+      "- A funny memory that makes them laugh\n\n" +
+      "Rules:\n" +
+      "- NEVER ask the same question twice\n" +
+      "- NEVER ask about music as the first or second question\n" +
+      "- If they mention anything in their intro, follow up on THAT instead of changing topic\n" +
+      "- Vary your second question every time based on what they shared\n" +
+      "- Read the conversation history carefully and build on what they have already shared\n" +
+      "- Ask follow-up questions based on their actual answers\n" +
+      "- If they mention a person, ask more about that person\n" +
+      "- If they mention a place, ask what they love about it\n" +
+      "- If they mention a hobby, ask for a specific memory related to it\n" +
+      "- Keep responses warm, short, and conversational — 2-3 sentences max\n" +
+      "- Acknowledge what they share before asking the next question\n" +
+      "- Never ask two questions in one message\n\n" +
+      "After your conversational response, on a new line extract a memory like this:\n" +
+      "[MEMORY: their name is X] or [MEMORY: they love X] or [MEMORY: they feel proud of X]\n" +
+      "Always extract something meaningful from every response.";
 
     const aiResponse = await chat(systemPrompt, [
       ...history,
       { role: "user", content: userMessage },
     ]);
 
+    console.log("=== HARVEST AI RESPONSE ===");
+    console.log(aiResponse);
+
     const memoryMatch = aiResponse.match(/\[MEMORY:(.*?)\]/);
-    const extractedMemory = memoryMatch ? memoryMatch[1].trim() : `User shared: ${userMessage}`;
+    let extractedMemory;
+    if (memoryMatch) {
+      extractedMemory = memoryMatch[1].trim();
+    } else {
+      const wordCount = userMessage.trim().split(/\s+/).length;
+      if (wordCount === 1) {
+        extractedMemory = "User's name is " + userMessage.trim();
+      } else {
+        extractedMemory = "User shared: " + userMessage.trim();
+      }
+    }
+
+    console.log("=== EXTRACTED MEMORY ===");
+    console.log(extractedMemory);
 
     const filePath = path.join(process.cwd(), "data", "patientMemory.json");
     let memories = [];
@@ -58,10 +75,15 @@ Always extract something meaningful from every response.
     memories.push(extractedMemory);
     fs.writeFileSync(filePath, JSON.stringify(memories, null, 2));
 
+    console.log("=== MEMORY SAVED ===");
+    console.log("Total memories:", memories.length);
+
     const cleanResponse = aiResponse.replace(/\[MEMORY:.*?\]/g, "").trim();
     return Response.json({ response: cleanResponse, memory: extractedMemory });
+
   } catch (error) {
-    console.error("Harvest API Error:", error);
+    console.error("=== HARVEST ERROR ===");
+    console.error(error);
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
